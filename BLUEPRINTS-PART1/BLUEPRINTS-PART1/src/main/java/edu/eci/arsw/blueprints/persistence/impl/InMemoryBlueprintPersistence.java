@@ -38,7 +38,12 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         }
         else{
             blueprints.put(new Tuple<>(bp.getAuthor(),bp.getName()), bp);
-        }        
+        }
+    }
+
+    @Override
+    public  HashSet<Blueprint> getAllBlueprints(){
+        return new HashSet<Blueprint>(blueprints.values());
     }
 
     @Override

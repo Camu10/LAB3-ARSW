@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.blueprints.services;
 
+import edu.eci.arsw.blueprints.filters.BlueprintsFilter;
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
@@ -25,17 +26,26 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BlueprintsServices {
-   
+
     @Autowired
     @Qualifier("InMemoryBlueprintPersistence")
-    BlueprintsPersistence bpp=null;
-    
+    BlueprintsPersistence bpp;
+
+    @Autowired
+    @Qualifier("RedundancyFilter")
+    //@Qualifier("SubsamplingFilter")
+    BlueprintsFilter bpf;
+
+    public Blueprint filter(Blueprint bp){
+        return bpf.filter(bp);
+    }
+
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         bpp.saveBlueprint(bp);
     }
     
     public Set<Blueprint> getAllBlueprints() throws BlueprintNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bpp.getAllBlueprints();
     }
     
     /**
